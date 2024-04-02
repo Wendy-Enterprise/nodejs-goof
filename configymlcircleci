@@ -1,94 +1,19 @@
-{
-    "version": 2.1,
-    "orbs": {
-        "node": "snyk/snyk@2.1.0"
-    },
-    "jobs": {
-        "test-node": {
-            "executor": "node/default",
-            "steps": [
-                "checkout",
-                {
-                    "node/install-packages": {
-                        "pkg-manager": "npm"
-                    }
-                },
-                {
-                    "run": {
-                        "name": "Run tests",
-                        "command": "npm test --passWithNoTests"
-                    }
-                }
-            ]
-        },
-        "build-node": {
-            "executor": "node/default",
-            "steps": [
-                "checkout",
-                {
-                    "node/install-packages": {
-                        "pkg-manager": "npm"
-                    }
-                },
-                {
-                    "run": {
-                        "command": "npm run build"
-                    }
-                },
-                {
-                    "run": {
-                        "name": "Create the ~/artifacts directory if it doesn't exist",
-                        "command": "mkdir -p ~/artifacts"
-                    }
-                },
-                {
-                    "run": {
-                        "name": "Copy artifacts",
-                        "command": "cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true"
-                    }
-                },
-                {
-                    "store_artifacts": {
-                        "path": "~/artifacts",
-                        "destination": "node-build"
-                    }
-                }
-            ]
-        },
-        "deploy": {
-            "docker": [
-                {
-                    "image": "cimg/base:stable"
-                }
-            ],
-            "steps": [
-                {
-                    "run": {
-                        "name": "deploy",
-                        "command": "#e.g. ./deploy.sh"
-                    }
-                },
-                {
-                    "run": {
-                        "name": "found github actions config",
-                        "command": ":"
-                    }
-                }
-            ]
-        }
-    },
-    "workflows": {
-        "build-and-test": {
-            "jobs": [
-                "test-node",
-                {
-                    "build-node": {
-                        "requires": [
-                            "test-node"
-                        ]
-                    }
-                }
-            ]
-        }
-    }
-}
+version: 2.1
+orbs:
+  snyk: snyk/snyk@1.1.2
+
+jobs:
+  snyk-scan:
+    docker:
+      - image: cimg/openjdk:11.0
+    steps:    
+      - checkout
+      - run: mvn install
+      - snyk/scan:
+          command: monitor
+          monitor-on-build: false
+
+workflows:
+  build-snyk:
+    jobs:
+      - snyk-scan
