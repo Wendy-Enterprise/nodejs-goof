@@ -1,19 +1,16 @@
-version: 2.1
+version: '2.1'
 orbs:
-  snyk: snyk/snyk@2.1.0
-
+  snyk: snyk/snyk@x.y.z
 jobs:
-  snyk-scan:
+  build:
     docker:
-      - image: cimg/openjdk:11.0
-    steps:    
+      - image: cimg/node:lts
+    steps:
       - checkout
-      - run: mvn install
+      - run: npm ci
       - snyk/scan:
-          command: monitor
+          fail-on-issues: false
           monitor-on-build: true
-
-workflows:
-  build-snyk:
-    jobs:
-      - snyk-scan
+          severity-threshold: high
+          token-variable: SNYK_TOKEN
+workflows: null
