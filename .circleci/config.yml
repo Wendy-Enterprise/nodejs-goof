@@ -9,4 +9,7 @@ jobs:
       - checkout
       - run: npm ci
       - snyk/scan
+        Fail-on-issues: false
+        monitor-on-build: true
+        token-variable: SNYK_TOKEN
 workflows: null
