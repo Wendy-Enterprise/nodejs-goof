@@ -11,7 +11,7 @@ jobs:
       - run: mvn install
       - snyk/scan:
           command: monitor
-          monitor-on-build: false
+          monitor-on-build: true
 
 workflows:
   build-snyk:
