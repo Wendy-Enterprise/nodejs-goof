@@ -15,4 +15,7 @@ jobs:
 workflows:
   build-snyk:
     jobs:
-      - snyk-scan
+     - snyk/scan:
+          command: monitor
+          monitor-on-build: false
+        
