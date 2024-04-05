@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  snyk: snyk/snyk@2.1.0
+  snyk: snyk/snyk@1.1.2
 
 jobs:
   snyk-scan:
@@ -11,7 +11,7 @@ jobs:
       - run: mvn install
       - snyk/scan:
           command: monitor
-          monitor-on-build: true
+          monitor-on-build: false
 
 workflows:
   build-snyk:
