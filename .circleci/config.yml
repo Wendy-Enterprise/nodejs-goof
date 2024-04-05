@@ -1,0 +1,18 @@
+version: 2.1
+orbs:
+  snyk: snyk/snyk@1.1.2
+
+jobs:
+  snyk-scan:
+    docker:
+      - image: cimg/openjdk:11.0
+    steps:    
+      - checkout
+      - run: mvn install
+      - snyk/install
+      - run: snyk code test # or any other CLI command here
+
+workflows:
+  build-snyk:
+    jobs:
+      - snyk-scan
