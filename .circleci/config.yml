@@ -8,7 +8,7 @@ jobs:
       - image: cimg/openjdk:11.0
     steps:    
       - checkout
-      - run: mvn install
+      - run: npm install
       - snyk/scan:
           command: monitor
           monitor-on-build: false
