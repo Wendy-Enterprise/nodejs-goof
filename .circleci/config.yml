@@ -12,5 +12,6 @@ jobs:
           fail-on-issues: true
           monitor-on-build: true
           severity-threshold: high
-      - command: snyk code test
+      - run:
+          command: snyk code test
 workflows: null
