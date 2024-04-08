@@ -9,9 +9,11 @@ jobs:
       - checkout
       - run: npm ci
       - snyk/scan:
-          fail-on-issues: false
-          severity-threshold: high
           monitor-on-build: true
-    steps: 
-      - command: snyk code test
+   steps: 
+     - checkout
+     - run: snyk code test
+     - run:
+          name: Install Snyk to HTML
+          command: npm install --prefix=$HOME/.local -g snyk-to-html
 workflows: null
