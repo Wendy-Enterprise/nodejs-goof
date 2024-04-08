@@ -1,0 +1,19 @@
+version: '2.1'
+orbs:
+  snyk: snyk/snyk@2.1.0
+jobs:
+  build:
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - checkout
+      - run: npm ci
+      - snyk/scan:
+          monitor-on-build: true
+   steps: 
+     - checkout
+     - run: snyk code test
+     - run:
+          name: Install Snyk to HTML
+          command: npm install --prefix=$HOME/.local -g snyk-to-html
+workflows: null
