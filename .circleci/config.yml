@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run: npm ci
       - snyk/scan:
-        command: code scan
+        command: snyk code test
           fail-on-issues: true
           monitor-on-build: true
           severity-threshold: high
