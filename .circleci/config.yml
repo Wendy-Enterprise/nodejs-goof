@@ -10,10 +10,4 @@ jobs:
       - run: npm ci
       - snyk/scan:
           monitor-on-build: true
-   steps: 
-     - checkout
-     - run: snyk code test
-     - run:
-          name: Install Snyk to HTML
-          command: npm install --prefix=$HOME/.local -g snyk-to-html
 workflows: null
